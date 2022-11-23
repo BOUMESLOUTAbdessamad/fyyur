@@ -19,7 +19,7 @@ We want Fyyur to be the next new platform that artists and musical venues can us
 
 ## Tech Stack (Dependencies)
 
-### 1. Backend Dependencies
+### 1. Backend Dependencies  (## Done)
 Our tech stack will include the following:
  * **virtualenv** as a tool to create isolated Python environments
  * **SQLAlchemy ORM** to be our ORM library of choice
