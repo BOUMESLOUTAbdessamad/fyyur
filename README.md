@@ -1,4 +1,4 @@
-Fyyur
+Fyyur: The final project on the SQL and data modeling for the Web <3
 -----
 
 ## Introduction
