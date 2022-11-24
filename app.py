@@ -14,13 +14,16 @@ from flask_wtf import Form
 from forms import *
 
 from flask_migrate import Migrate
+from config import SQLALCHEMY_DATABASE_URI, DEBUG, SECRET_KEY
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
 
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
 moment = Moment(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/fyyur'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/fyyur'
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
@@ -56,6 +59,7 @@ class Venue(db.Model):
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
     address = db.Column(db.String(120), nullable=True)
+    genres = db.Column(db.String(120))
     phone = db.Column(db.String(120), nullable=True)
     image_link = db.Column(db.String(500), nullable=True)
     facebook_link = db.Column(db.String(120), nullable=True)
@@ -74,11 +78,11 @@ class Artist(db.Model):
     genres = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
-    website_url = db.Column(db.String(120))
-    is_looking_for_venues = db.Column(db.Boolean, nullable=False, default=False)
+    website_link = db.Column(db.String(120))
+    seeking_venue = db.Column(db.Boolean, nullable=False, default=False, server_default="false")
     seeking_description = db.Column(db.String(500))
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate ## DONE ##
+    # TODO: implement any missing fields, as a database migration using Flask-Migrate ***DONE***
 
 
 class Genre(db.Model):
@@ -437,6 +441,16 @@ def edit_venue_submission(venue_id):
 #  Create Artist
 #  ----------------------------------------------------------------
 
+@app.route('/test')
+def test():
+  errors = ({
+    'name':'abdou',
+    'city':'Oran'
+  })
+
+  print(errors)
+  return errors
+
 @app.route('/artists/create', methods=['GET'])
 def create_artist_form():
   form = ArtistForm()
@@ -448,10 +462,39 @@ def create_artist_submission():
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
 
-  # on successful db insert, flash success
-  flash('Artist ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Artist ' + data.name + ' could not be listed.')
+  # ***Abdessamed's Code***
+
+  error = False
+  if not request.form['name']:
+      flash('Artist name is required!')
+  elif not request.form['city']:
+      flash('City is required!')
+  elif not request.form['state']:
+      flash('State is required!')
+  else:
+      new_artist = Artist(
+        name=request.form['name'],
+        city=request.form['city'],
+        state=request.form['state'],
+        phone=request.form['phone'],
+        genres=request.form['genres'],
+        image_link=request.form['image_link'],
+        facebook_link=request.form['facebook_link'],
+        website_link=request.form['website_link'],
+        # seeking_venue=request.form['seeking_venue'],
+        seeking_description =request.form['seeking_description'],
+        )
+      db.session.add(new_artist)
+      db.session.commit()
+  
+  if not error :
+    # on successful db insert, flash success
+    flash('Artist ' + request.form['name'] + ' was successfully listed!')
+  else:
+    # TODO: on unsuccessful db insert, flash an error instead.
+    flash('An error occurred. Artist ' + request.form['name'] + ' could not be listed.')
+    # ***Abdessamed's Code***
+
   return render_template('pages/home.html')
 
 
@@ -543,7 +586,7 @@ if not app.debug:
 
 # Default port:
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=DEBUG)
 
 # Or specify port manually:
 '''
