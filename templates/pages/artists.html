@@ -1,6 +1,15 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Fyyur | Artists{% endblock %}
 {% block content %}
+{% if not artists %}
+	<div class="row">
+		<div class="text-center" style="margin-top: 64px;">
+			No artists found :( <br>
+			<a href="/artists/create"> Create a New Artist</a>
+		</div>
+
+	</div>
+{%endif%}
 <ul class="items">
 	{% for artist in artists %}
 	<li>
