@@ -209,6 +209,7 @@ def show_venue(venue_id):
         "website":  venueData.website_link,
         "facebook_link":  venueData.facebook_link,
         "seeking_talent": venueData.seeking_talent,
+        "seeking_description": venueData.seeking_description,
         "image_link":  venueData.image_link,
         "upcoming_shows": upcoming_shows_data,
         "past_shows": past_shows_data,
@@ -237,14 +238,14 @@ def create_venue_submission():
 		venue = Venue(
 			name=form.name.data,
 			city=form.city.data,
-      state=form.state.data,
-      address=form.address.data,
-      phone = form.phone.data,
+            state=form.state.data,
+            address=form.address.data,
+            phone = form.phone.data,
 			genres=form.genres.data,
-      facebook_link=form.facebook_link.data,
+            facebook_link=form.facebook_link.data,
 			image_link = form.image_link.data,
 			website_link=form.website_link.data,
-      seeking_talent=form.seeking_talent.data,
+            seeking_talent=form.seeking_talent.data,
 			seeking_description=form.seeking_description.data
 		)
 		db.session.add(venue)
