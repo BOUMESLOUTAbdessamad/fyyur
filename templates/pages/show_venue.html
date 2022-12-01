@@ -76,10 +76,12 @@
 </section>
 
 <a href="/venues/{{ venue.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a>
-<form method="POST" action="/venues/{{ venue.id }}/delete_venue" style="display: inline;">
+<form style="display: inline;">
     <input 
 		type="submit"
 		value="Delete"
+		formmethod="POST"
+           formaction="{{ url_for('delete_venue', venue_id=venue.id) }}"
 		class="btn btn-danger btn-lg">
 </form>
 {% endblock %}

@@ -201,8 +201,11 @@ def delete_venue(venue_id):
     # clicking that button delete it from the db then redirect the user to the homepage
 
     try:
-        Venue.query.filter(Venue.id == venue_id).delete()
-        Show.query.filter(Show.venue_id == venue_id).delete() # Delete all shows related to the venue if available
+        Show.query.filter(Show.venue_id == venue_id).delete() # First, delete all shows related to the venue if available
+		
+        venue = Venue.query.filter(Venue.id == venue_id).first_or_404()
+        
+        db.session.delete(venue)
         db.session.commit()
         flash('Venue was successfully Deleted!')
     except:
