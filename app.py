@@ -276,18 +276,18 @@ def show_artist(artist_id):
     past_shows_data = []
     for past_show in past_shows:
         past_shows_data.append({
-            "artist_id": past_show.artist.id,
-            "artist_name": past_show.artist.name,
-            "venue_image_link": past_show.artist.image_link,
+            "venue_id": past_show.venue.id,
+            "venue_name": past_show.venue.name,
+            "venue_image_link": past_show.venue.image_link,
             "start_time": past_show.start_time.strftime("%m/%d/%Y, %H:%M"),
         })
 
     upcoming_shows_data = []
     for upcoming_show in upcoming_shows:
         upcoming_shows_data.append({
-            "artist_id": upcoming_show.artist.id,
-            "artist_name": upcoming_show.artist.name,
-            "venue_image_link": upcoming_show.artist.image_link,
+            "venue_id": upcoming_show.venue.id,
+            "venue_name": upcoming_show.venue.name,
+            "venue_image_link": upcoming_show.venue.image_link,
             "start_time": upcoming_show.start_time.strftime("%m/%d/%Y, %H:%M"),
         })
 
